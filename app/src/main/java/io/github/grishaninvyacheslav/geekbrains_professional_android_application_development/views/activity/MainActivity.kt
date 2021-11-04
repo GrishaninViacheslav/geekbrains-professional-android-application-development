@@ -2,31 +2,31 @@ package io.github.grishaninvyacheslav.geekbrains_professional_android_applicatio
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import by.kirich1409.viewbindingdelegate.CreateMethod
-import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
+
 import com.github.terrakok.cicerone.androidx.AppNavigator
+import dagger.android.AndroidInjection
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.R
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.databinding.ActivityMainBinding
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.presenters.main.MainPresenter
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.presenters.main.MainView
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.App
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.databinding.ActivityMainBinding
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.BackButtonListener
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.Screens
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainView, BackButtonListener {
-    private val view: ActivityMainBinding by viewBinding(createMethod = CreateMethod.INFLATE)
+class MainActivity : AppCompatActivity(), BackButtonListener {
+    private val router: Router = App.instance.router
 
-    @Inject
-    lateinit var presenter: MainPresenter
+    private var _view: ActivityMainBinding? = null
+    private val view get() = _view!!
 
     private val navigator = AppNavigator(this, R.id.container)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.instance.appComponent.inject(this)
-        presenter.attach(this)
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+        _view = ActivityMainBinding.inflate(layoutInflater)
         setContentView(view.root)
+        router.replaceScreen(Screens.searchInput())
     }
 
     override fun onResumeFragments() {
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), MainView, BackButtonListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.detach(this)
+        _view = null
     }
 
     override fun onBackPressed() {
@@ -52,5 +52,8 @@ class MainActivity : AppCompatActivity(), MainView, BackButtonListener {
         }
     }
 
-    override fun backPressed() = presenter.backPressed()
+    override fun backPressed(): Boolean {
+        router.exit()
+        return true
+    }
 }

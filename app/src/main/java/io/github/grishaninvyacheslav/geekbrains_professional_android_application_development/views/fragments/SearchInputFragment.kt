@@ -46,8 +46,12 @@ class SearchInputFragment : Fragment(), BackButtonListener {
                 model.getData(searchInput.text.toString())
                     .observe(viewLifecycleOwner) { renderData(it) }
             }
+            history.setOnClickListener { showHistory() }
         }
     }
+
+    private fun showHistory() = router.navigateTo(Screens.searchHistory())
+
 
     private fun removeViewListeners() {
         // TODO("NOT YET IMPLEMENTED")

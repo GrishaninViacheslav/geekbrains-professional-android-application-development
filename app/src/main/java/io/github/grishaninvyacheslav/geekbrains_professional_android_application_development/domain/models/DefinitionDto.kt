@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class DictionaryWordDto(
     @Expose val word: String,
     @Expose val phonetic: String,
-    @Expose val meanings: List<MeaningsDto>
+    @Expose val meanings: List<MeaningsDto>? = null
 ) : Parcelable
 
 @Parcelize

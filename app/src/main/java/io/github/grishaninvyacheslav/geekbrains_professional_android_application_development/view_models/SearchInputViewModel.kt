@@ -10,9 +10,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class SearchInputViewModel @Inject constructor() : ViewModel() {
+class SearchInputViewModel : ViewModel() {
     private val liveMessage: MutableLiveData<AppState> = MutableLiveData()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 

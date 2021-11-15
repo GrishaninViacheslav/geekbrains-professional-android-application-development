@@ -9,9 +9,8 @@ import io.github.grishaninvyacheslav.geekbrains_professional_android_application
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.ApiHolder
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
-import javax.inject.Inject
 
-class SearchResultViewModel @Inject constructor() : ViewModel() {
+class SearchResultViewModel: ViewModel() {
     private val liveDefinitions: MutableLiveData<DefinitionsState> = MutableLiveData()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val repository: IDictionaryRepository = DictionaryRepository(ApiHolder.api)

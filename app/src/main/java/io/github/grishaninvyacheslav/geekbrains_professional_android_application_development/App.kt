@@ -3,20 +3,11 @@ package io.github.grishaninvyacheslav.geekbrains_professional_android_applicatio
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.di.DaggerAppComponent
-import javax.inject.Inject
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.di.koin.application
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.di.koin.mainScreen
+import org.koin.core.context.GlobalContext.startKoin
 
-class App : Application(), HasAndroidInjector {
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-    override fun androidInjector(): AndroidInjector<Any> {
-        return dispatchingAndroidInjector
-    }
-
+class App : Application() {
     companion object {
         lateinit var instance: App
             private set
@@ -32,9 +23,8 @@ class App : Application(), HasAndroidInjector {
         super.onCreate()
         instance = this
 
-        DaggerAppComponent.builder()
-            .application(this)
-            .build()
-            .inject(this)
+        startKoin {
+            modules(listOf(application, mainScreen))
+        }
     }
 }

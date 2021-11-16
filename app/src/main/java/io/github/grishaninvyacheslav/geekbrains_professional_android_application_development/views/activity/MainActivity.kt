@@ -3,15 +3,12 @@ package io.github.grishaninvyacheslav.geekbrains_professional_android_applicatio
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.github.terrakok.cicerone.Router
-
 import com.github.terrakok.cicerone.androidx.AppNavigator
-import dagger.android.AndroidInjection
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.R
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.App
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.databinding.ActivityMainBinding
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.BackButtonListener
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.Screens
-import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), BackButtonListener {
     private val router: Router = App.instance.router
@@ -22,7 +19,6 @@ class MainActivity : AppCompatActivity(), BackButtonListener {
     private val navigator = AppNavigator(this, R.id.container)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         _view = ActivityMainBinding.inflate(layoutInflater)
         setContentView(view.root)

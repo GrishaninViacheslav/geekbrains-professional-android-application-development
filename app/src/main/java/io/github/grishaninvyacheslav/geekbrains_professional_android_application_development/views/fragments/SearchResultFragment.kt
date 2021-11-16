@@ -8,17 +8,14 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.github.terrakok.cicerone.Router
-import dagger.android.support.AndroidSupportInjection
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.App
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.R
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.databinding.FragmentSearchResultBinding
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.view_models.SearchInputViewModel
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.view_models.search_result.DefinitionsState
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.view_models.search_result.SearchResultViewModel
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.BackButtonListener
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchResultFragment : Fragment(), BackButtonListener {
     private val router: Router = App.instance.router
@@ -41,10 +38,7 @@ class SearchResultFragment : Fragment(), BackButtonListener {
         }
     }
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    lateinit var model: SearchResultViewModel
+    private val model: SearchResultViewModel by viewModel()
 
     companion object {
         val QUERY_ARG = "QUERY"
@@ -55,17 +49,11 @@ class SearchResultFragment : Fragment(), BackButtonListener {
         }
     }
 
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _view = FragmentSearchResultBinding.inflate(inflater, container, false)
-        model = viewModelFactory.create(SearchResultViewModel::class.java)
         model.getDefinitions(requireArguments().getString(QUERY_ARG)!!)
             .observe(viewLifecycleOwner) { renderData(it) }
         return view.root

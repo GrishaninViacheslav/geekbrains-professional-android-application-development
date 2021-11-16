@@ -2,9 +2,9 @@ package io.github.grishaninvyacheslav.geekbrains_professional_android_applicatio
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.models.repository.IDataSource
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiHolder {
@@ -16,7 +16,7 @@ object ApiHolder {
 
         Retrofit.Builder()
             .baseUrl("https://api.dictionaryapi.dev")
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(IDataSource::class.java)

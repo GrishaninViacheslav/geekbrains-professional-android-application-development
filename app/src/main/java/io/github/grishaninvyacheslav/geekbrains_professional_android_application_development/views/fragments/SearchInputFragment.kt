@@ -1,13 +1,10 @@
 package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.Router
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.App
@@ -61,6 +58,10 @@ class SearchInputFragment : Fragment(), BackButtonListener {
         }
     }
 
+    private fun showMessage(message: String) {
+        view.errorMessage.text = message
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = SearchInputFragment()
@@ -72,16 +73,6 @@ class SearchInputFragment : Fragment(), BackButtonListener {
     ): View {
         _view = FragmentSearchInputBinding.inflate(inflater, container, false)
         return view.apply { setViewListeners() }.root
-    }
-
-    fun showMessage(message: String) {
-        view.errorMessage.text = message
-        Log.d("[SearchInputFragment]", "view.errorMessage.text: ${view.errorMessage.text}")
-        Toast.makeText(
-            context,
-            "view.errorMessage.text: ${view.errorMessage.text}",
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
     override fun backPressed(): Boolean {

@@ -6,6 +6,7 @@ import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.App
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.activity.MainActivity
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.fragments.HistoryFragment
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.fragments.SearchInputFragment
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.fragments.SearchResultFragment
 import javax.inject.Singleton
@@ -33,4 +34,5 @@ interface AppComponent {
 
     fun inject(searchInputFragment: SearchInputFragment)
     fun inject(searchResultFragment: SearchResultFragment)
+    fun inject(historyFragment: HistoryFragment)
 }

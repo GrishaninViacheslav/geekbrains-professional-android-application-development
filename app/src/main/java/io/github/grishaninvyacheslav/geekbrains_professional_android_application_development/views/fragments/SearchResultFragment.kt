@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.Router
 import dagger.android.support.AndroidSupportInjection
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.App
@@ -28,8 +29,11 @@ class SearchResultFragment : Fragment(), BackButtonListener {
 
     private fun renderData(definitionsState: DefinitionsState) {
         when (definitionsState) {
-            is DefinitionsState.Success ->
+            is DefinitionsState.Success -> {
                 setTitle(definitionsState.dtosList[0].word, definitionsState.dtosList[0].phonetic)
+                setImage()
+            }
+
             is DefinitionsState.Error -> {
                 when (definitionsState.error) {
                     is java.net.UnknownHostException ->
@@ -71,11 +75,17 @@ class SearchResultFragment : Fragment(), BackButtonListener {
         return view.root
     }
 
-    fun setTitle(wordValue: String, phoneticValue: String) = with(view) {
+    private fun setTitle(wordValue: String, phoneticValue: String) = with(view) {
         word.text = wordValue
         phonetic.text = phoneticValue
         progressBar.visibility = GONE
         errorMessage.visibility = GONE
+    }
+
+    private fun setImage() {
+        Glide.with(view.image)
+            .load("https://picsum.photos/200")
+            .into(view.image)
     }
 
     fun showErrorMessage(message: String) = with(view.errorMessage) {

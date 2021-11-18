@@ -2,6 +2,7 @@ package io.github.grishaninvyacheslav.geekbrains_professional_android_applicatio
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.fragments.HistoryFragment
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.fragments.SearchInputFragment
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.fragments.SearchResultFragment
 
@@ -12,4 +13,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeSearchResultFragment(): SearchResultFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeHistoryFragment(): HistoryFragment
 }

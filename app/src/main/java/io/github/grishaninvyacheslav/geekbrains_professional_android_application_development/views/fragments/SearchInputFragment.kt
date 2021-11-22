@@ -5,40 +5,43 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.Router
+import com.google.android.material.button.MaterialButton
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.App
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.databinding.FragmentSearchInputBinding
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.R
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.view_models.AppState
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.view_models.SearchInputViewModel
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.BackButtonListener
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.Screens
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.viewById
 import org.koin.android.scope.getOrCreateScope
 
 
 class SearchInputFragment : Fragment(), BackButtonListener {
-    private var _view: FragmentSearchInputBinding? = null
-    private val view get() = _view!!
+    private val searchInput by viewById<EditText>(R.id.search_input)
+    private val searchConfirm by viewById<MaterialButton>(R.id.search_confirm)
+    private val errorMessage by viewById<TextView>(R.id.error_message)
 
     private val router: Router = App.instance.router
 
     private val model: SearchInputViewModel by getOrCreateScope().value.inject()
 
     private fun setViewListeners() {
-        with(view) {
-            searchInput.setOnKeyListener { v, keyCode, event ->
-                if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    model.getData(searchInput.text.toString())
-                        .observe(viewLifecycleOwner) { renderData(it) }
-                    return@setOnKeyListener true
-                }
-                view.errorMessage.text = ""
-                return@setOnKeyListener false
-            }
-            searchConfirm.setOnClickListener {
+        searchInput.setOnKeyListener { v, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 model.getData(searchInput.text.toString())
                     .observe(viewLifecycleOwner) { renderData(it) }
+                return@setOnKeyListener true
             }
+            errorMessage.text = ""
+            return@setOnKeyListener false
+        }
+        searchConfirm.setOnClickListener {
+            model.getData(searchInput.text.toString())
+                .observe(viewLifecycleOwner) { renderData(it) }
         }
     }
 
@@ -49,7 +52,7 @@ class SearchInputFragment : Fragment(), BackButtonListener {
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success ->
-                router.navigateTo(Screens.searchResult(view.searchInput.text.toString()))
+                router.navigateTo(Screens.searchResult(searchInput.text.toString()))
             is AppState.Loading ->
                 removeViewListeners()
             is AppState.Error -> {
@@ -60,7 +63,7 @@ class SearchInputFragment : Fragment(), BackButtonListener {
     }
 
     private fun showMessage(message: String) {
-        view.errorMessage.text = message
+        errorMessage.text = message
     }
 
     companion object {
@@ -72,17 +75,16 @@ class SearchInputFragment : Fragment(), BackButtonListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _view = FragmentSearchInputBinding.inflate(inflater, container, false)
-        return view.apply { setViewListeners() }.root
+        return inflater.inflate(R.layout.fragment_search_input, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setViewListeners()
     }
 
     override fun backPressed(): Boolean {
         router.exit()
         return true
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _view = null
     }
 }

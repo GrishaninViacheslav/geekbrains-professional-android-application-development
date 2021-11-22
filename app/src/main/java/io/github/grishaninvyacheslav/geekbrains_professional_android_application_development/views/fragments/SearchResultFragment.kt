@@ -6,21 +6,25 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.Router
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.App
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.R
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.databinding.FragmentSearchResultBinding
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.view_models.search_result.DefinitionsState
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.view_models.search_result.SearchResultViewModel
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.BackButtonListener
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.viewById
 import org.koin.android.scope.getOrCreateScope
 
 class SearchResultFragment : Fragment(), BackButtonListener {
-    private val router: Router = App.instance.router
+    private val word by viewById<TextView>(R.id.word)
+    private val phonetic by viewById<TextView>(R.id.phonetic)
+    private val progressBar by viewById<ProgressBar>(R.id.progress_bar)
+    private val errorMessage by viewById<TextView>(R.id.error_message)
 
-    private var _view: FragmentSearchResultBinding? = null
-    private val view get() = _view!!
+    private val router: Router = App.instance.router
 
     private fun renderData(definitionsState: DefinitionsState) {
         when (definitionsState) {
@@ -52,20 +56,19 @@ class SearchResultFragment : Fragment(), BackButtonListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _view = FragmentSearchResultBinding.inflate(inflater, container, false)
         model.getDefinitions(requireArguments().getString(QUERY_ARG)!!)
             .observe(viewLifecycleOwner) { renderData(it) }
-        return view.root
+        return inflater.inflate(R.layout.fragment_search_result, container, false)
     }
 
-    fun setTitle(wordValue: String, phoneticValue: String) = with(view) {
+    fun setTitle(wordValue: String, phoneticValue: String) {
         word.text = wordValue
         phonetic.text = phoneticValue
         progressBar.visibility = GONE
         errorMessage.visibility = GONE
     }
 
-    fun showErrorMessage(message: String) = with(view.errorMessage) {
+    fun showErrorMessage(message: String) = with(errorMessage) {
         text = message
         visibility = VISIBLE
     }
@@ -73,10 +76,5 @@ class SearchResultFragment : Fragment(), BackButtonListener {
     override fun backPressed(): Boolean {
         router.exit()
         return true
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _view = null
     }
 }

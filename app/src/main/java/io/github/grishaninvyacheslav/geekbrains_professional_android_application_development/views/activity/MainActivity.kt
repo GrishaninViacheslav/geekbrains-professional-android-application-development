@@ -17,7 +17,9 @@ class MainActivity : AppCompatActivity(), BackButtonListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        router.replaceScreen(Screens.searchInput())
+        if(savedInstanceState == null){
+            router.replaceScreen(Screens.searchInput())
+        }
     }
 
     override fun onResumeFragments() {

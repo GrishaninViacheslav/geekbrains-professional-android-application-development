@@ -26,6 +26,8 @@ class SearchResultFragment : Fragment(), BackButtonListener {
 
     private val router: Router = App.instance.router
 
+    private var definitionsState: DefinitionsState? = null
+
     private fun renderData(definitionsState: DefinitionsState) {
         when (definitionsState) {
             is DefinitionsState.Success ->
@@ -45,6 +47,7 @@ class SearchResultFragment : Fragment(), BackButtonListener {
 
     companion object {
         val QUERY_ARG = "QUERY"
+        val DEFINITIONS_STATE_ARG = "DEFINITIONS_STATE"
 
         @JvmStatic
         fun newInstance(query: String) = SearchResultFragment().apply {
@@ -56,9 +59,41 @@ class SearchResultFragment : Fragment(), BackButtonListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        model.getDefinitions(requireArguments().getString(QUERY_ARG)!!)
-            .observe(viewLifecycleOwner) { renderData(it) }
+        if (savedInstanceState == null) {
+            model.getDefinitions(requireArguments().getString(QUERY_ARG)!!)
+                .observe(viewLifecycleOwner) {
+                    definitionsState = it
+                    renderData(definitionsState!!)
+                }
+        }
         return inflater.inflate(R.layout.fragment_search_result, container, false)
+    }
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        when (definitionsState) {
+            is DefinitionsState.Success -> savedInstanceState.putParcelable(
+                DEFINITIONS_STATE_ARG,
+                definitionsState as DefinitionsState.Success
+            )
+            is DefinitionsState.Error -> savedInstanceState.putParcelable(
+                DEFINITIONS_STATE_ARG,
+                definitionsState as DefinitionsState.Error
+            )
+            is DefinitionsState.Loading -> savedInstanceState.putParcelable(
+                DEFINITIONS_STATE_ARG,
+                definitionsState as DefinitionsState.Loading
+            )
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if(savedInstanceState == null){
+            return
+        }
+        definitionsState = savedInstanceState.getParcelable(DEFINITIONS_STATE_ARG)
+        renderData(definitionsState!!)
     }
 
     fun setTitle(wordValue: String, phoneticValue: String) {

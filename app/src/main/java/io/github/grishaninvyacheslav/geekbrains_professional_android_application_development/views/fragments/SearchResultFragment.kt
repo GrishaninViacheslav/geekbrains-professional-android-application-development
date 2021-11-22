@@ -1,6 +1,5 @@
 package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,7 @@ import io.github.grishaninvyacheslav.geekbrains_professional_android_application
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.view_models.search_result.DefinitionsState
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.view_models.search_result.SearchResultViewModel
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.BackButtonListener
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.scope.getOrCreateScope
 
 class SearchResultFragment : Fragment(), BackButtonListener {
     private val router: Router = App.instance.router
@@ -38,7 +37,7 @@ class SearchResultFragment : Fragment(), BackButtonListener {
         }
     }
 
-    private val model: SearchResultViewModel by viewModel()
+    private val model: SearchResultViewModel by getOrCreateScope().value.inject()
 
     companion object {
         val QUERY_ARG = "QUERY"

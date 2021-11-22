@@ -3,8 +3,8 @@ package io.github.grishaninvyacheslav.geekbrains_professional_android_applicatio
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.di.koin.application
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.di.koin.mainScreen
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.di.application
+import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.di.mainScreen
 import org.koin.core.context.GlobalContext.startKoin
 
 class App : Application() {

@@ -13,7 +13,8 @@ import io.github.grishaninvyacheslav.geekbrains_professional_android_application
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.view_models.SearchInputViewModel
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.BackButtonListener
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.Screens
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.scope.getOrCreateScope
+
 
 class SearchInputFragment : Fragment(), BackButtonListener {
     private var _view: FragmentSearchInputBinding? = null
@@ -21,7 +22,7 @@ class SearchInputFragment : Fragment(), BackButtonListener {
 
     private val router: Router = App.instance.router
 
-    private val model: SearchInputViewModel by viewModel()
+    private val model: SearchInputViewModel by getOrCreateScope().value.inject()
 
     private fun setViewListeners() {
         with(view) {

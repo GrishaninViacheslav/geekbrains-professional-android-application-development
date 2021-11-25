@@ -1,0 +1,10 @@
+io/github/grishaninvyacheslav/domain/models/repository/room/HistoryDataBase_Impl.java
+ io.github.grishaninvyacheslav.domain.models.repository.room.HistoryDataBase_Impl
+ io.github.grishaninvyacheslav.domain.models.repository.room.HistoryDataBase_Impl$1
+io/github/grishaninvyacheslav/domain/BuildConfig.java
+ io.github.grishaninvyacheslav.domain.BuildConfig
+io/github/grishaninvyacheslav/domain/models/repository/room/HistoryDao_Impl.java
+ io.github.grishaninvyacheslav.domain.models.repository.room.HistoryDao_Impl
+ io.github.grishaninvyacheslav.domain.models.repository.room.HistoryDao_Impl$1
+ io.github.grishaninvyacheslav.domain.models.repository.room.HistoryDao_Impl$2
+ io.github.grishaninvyacheslav.domain.models.repository.room.HistoryDao_Impl$3

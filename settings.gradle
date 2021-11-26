@@ -1,2 +1,3 @@
 rootProject.name = "geekbrains-professional-android-application-development"
 include ':app'
+include ':domain'

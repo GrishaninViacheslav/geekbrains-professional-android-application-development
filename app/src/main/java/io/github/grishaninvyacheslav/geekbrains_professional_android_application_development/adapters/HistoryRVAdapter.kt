@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.R
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.models.repository.room.HistoryEntity
+import io.github.grishaninvyacheslav.domain.models.repository.room.HistoryEntity
 
 class HistoryRVAdapter(
-    var history: List<HistoryEntity>,
+    var history: List<io.github.grishaninvyacheslav.domain.models.repository.room.HistoryEntity>,
     private val onClickEvent: (word: String) -> Unit
 ) :
     RecyclerView.Adapter<HistoryRVAdapter.ViewHolder>() {

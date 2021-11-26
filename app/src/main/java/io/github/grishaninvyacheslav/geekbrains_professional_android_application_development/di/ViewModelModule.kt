@@ -1,4 +1,4 @@
-package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.di
+package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

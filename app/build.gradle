@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    implementation project(Modules.domain)
+
     implementation Kotlin.stdlib
     implementation Kotlin.core
 
@@ -52,19 +54,15 @@ dependencies {
     kapt Dagger.compiler
     kapt Dagger.processor
 
-    implementation Cicerone.cicerone
+    implementation Room.runtime
+    kapt Room.compiler
+    implementation Room.room_ktx
 
-    implementation Retrofit.retrofit
-    implementation Retrofit.converter_gson
-    implementation Retrofit.adapter
+    implementation Cicerone.cicerone
 
     implementation RxJava.rx_java
     implementation RxJava.rx_kotlin
     implementation RxJava.rx_android
-
-    implementation Room.runtime
-    kapt Room.compiler
-    implementation Room.room_ktx
 
     implementation Glide.glide
     kapt Glide.compiler

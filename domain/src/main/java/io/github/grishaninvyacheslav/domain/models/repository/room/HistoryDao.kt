@@ -1,4 +1,4 @@
-package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.models.repository.room
+package io.github.grishaninvyacheslav.domain.models.repository.room
 
 import androidx.room.*
 

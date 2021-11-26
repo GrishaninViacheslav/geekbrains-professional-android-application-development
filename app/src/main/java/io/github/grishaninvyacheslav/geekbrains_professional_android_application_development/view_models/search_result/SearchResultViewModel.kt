@@ -2,10 +2,10 @@ package io.github.grishaninvyacheslav.geekbrains_professional_android_applicatio
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.models.DictionaryWordDto
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.models.repository.DictionaryRepository
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.models.repository.IDictionaryRepository
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.schedulers.DefaultSchedulers
+import io.github.grishaninvyacheslav.domain.models.DictionaryWordDto
+import io.github.grishaninvyacheslav.domain.models.repository.DictionaryRepository
+import io.github.grishaninvyacheslav.domain.models.repository.IDictionaryRepository
+import io.github.grishaninvyacheslav.domain.schedulers.DefaultSchedulers
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.ApiHolder
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -14,11 +14,12 @@ import javax.inject.Inject
 class SearchResultViewModel @Inject constructor() : ViewModel() {
     private val liveDefinitions: MutableLiveData<DefinitionsState> = MutableLiveData()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private val repository: IDictionaryRepository = DictionaryRepository(ApiHolder.api)
+    private val repository: io.github.grishaninvyacheslav.domain.models.repository.IDictionaryRepository =
+        io.github.grishaninvyacheslav.domain.models.repository.DictionaryRepository(ApiHolder.api)
 
     private inner class DefinitionsLoadObserver :
-        DisposableSingleObserver<List<DictionaryWordDto>>() {
-        override fun onSuccess(value: List<DictionaryWordDto>) {
+        DisposableSingleObserver<List<io.github.grishaninvyacheslav.domain.models.DictionaryWordDto>>() {
+        override fun onSuccess(value: List<io.github.grishaninvyacheslav.domain.models.DictionaryWordDto>) {
             liveDefinitions.value = DefinitionsState.Success(value)
         }
 
@@ -32,7 +33,7 @@ class SearchResultViewModel @Inject constructor() : ViewModel() {
         compositeDisposable.add(
             repository
                 .getDefinitions(query)
-                .observeOn(DefaultSchedulers.main())
+                .observeOn(io.github.grishaninvyacheslav.domain.schedulers.DefaultSchedulers.main())
                 .subscribeWith(DefinitionsLoadObserver())
         )
         return liveDefinitions

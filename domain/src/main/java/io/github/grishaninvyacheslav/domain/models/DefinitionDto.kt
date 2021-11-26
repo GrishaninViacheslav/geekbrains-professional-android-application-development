@@ -1,4 +1,4 @@
-package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.models
+package io.github.grishaninvyacheslav.domain.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose

@@ -1,8 +1,8 @@
-package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.models.repository
+package io.github.grishaninvyacheslav.domain.models.repository
 
 import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.App
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.models.DictionaryWordDto
-import io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.models.repository.room.HistoryEntity
+import io.github.grishaninvyacheslav.domain.models.DictionaryWordDto
+import io.github.grishaninvyacheslav.domain.models.repository.room.HistoryEntity
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 

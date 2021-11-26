@@ -1,4 +1,4 @@
-package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.di
+package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.di
 
 import android.app.Application
 import dagger.BindsInstance

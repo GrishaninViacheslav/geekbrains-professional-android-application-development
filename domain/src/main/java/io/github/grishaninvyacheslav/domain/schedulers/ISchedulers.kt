@@ -1,4 +1,4 @@
-package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.domain.schedulers
+package io.github.grishaninvyacheslav.domain.schedulers
 
 import io.reactivex.Scheduler
 

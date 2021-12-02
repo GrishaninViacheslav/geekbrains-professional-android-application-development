@@ -1,12 +1,15 @@
 package io.github.grishaninvyacheslav.geekbrains_professional_android_application_development.views.fragments
 
 import android.content.Context
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -27,9 +30,11 @@ class SearchResultFragment : Fragment(), BackButtonListener {
     private var _view: FragmentSearchResultBinding? = null
     private val view get() = _view!!
 
+    @RequiresApi(31)
     private fun renderData(definitionsState: DefinitionsState) {
         when (definitionsState) {
             is DefinitionsState.Success -> {
+                view.root.setRenderEffect(null)
                 setTitle(definitionsState.dtosList[0].word, definitionsState.dtosList[0].phonetic)
                 setImage()
             }
@@ -64,6 +69,7 @@ class SearchResultFragment : Fragment(), BackButtonListener {
         super.onAttach(context)
     }
 
+    @RequiresApi(31)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,7 +78,9 @@ class SearchResultFragment : Fragment(), BackButtonListener {
         model = viewModelFactory.create(SearchResultViewModel::class.java)
         model.getDefinitions(requireArguments().getString(QUERY_ARG)!!)
             .observe(viewLifecycleOwner) { renderData(it) }
-        return view.root
+        return view.root.apply {
+            setRenderEffect(RenderEffect.createBlurEffect(16f, 16f, Shader.TileMode.MIRROR))
+        }
     }
 
     private fun setTitle(wordValue: String, phoneticValue: String) = with(view) {

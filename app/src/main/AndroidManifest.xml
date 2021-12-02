@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Geekbrainsprofessionalandroidapplicationdevelopment">
-        <activity android:name=".views.activity.MainActivity">
+        <activity
+            android:name=".views.activity.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
